@@ -1,0 +1,47 @@
+#+TAGS: emacs org-mode org-mode-babel
+
+* Scratch Files
+
+Over the past few months of using Emacs, I've picked up scratch files as a tool
+to quickly validate ideas in my projects.
+
+I used to do this by saving a ~test.js~ or ~test.rb~ file in my root directory,
+and executing that against the language interpreter every time I made a change.
+Not a /terrible/ solution per se, but it never felt quite right.
+
+Using [[https://orgmode.org/worg/org-contrib/babel/][Org Mode Babel]] I can write multiple pieces of source code (in different
+languages even) inside a single file, and execute them with ~C-c C-c~
+
+(You should view the raw version of this file to understand how the results are
+being displayed, since GitHub's org-ruby implementation doesn't support this
+yet)
+
+Most languages evaluate the code inside a function call, so I need to return
+the value I want to preview:
+
+#+BEGIN_SRC js
+return 2.0 + 3.0
+#+END_SRC
+
+#+RESULTS:
+: 5
+
+As expected, Ruby evaluates the last value inside a function regardless, and the
+explicit return is not required:
+
+#+BEGIN_SRC ruby
+"NaN" * 10 + " Batman!"
+#+END_SRC
+
+#+RESULTS:
+: NaNNaNNaNNaNNaNNaNNaNNaNNaNNaN Batman!
+
+I can load the language functions / special linters and formatting tools like
+Prettier for JS / etc, by running ~org-edit-special~ or ~C-c '~ to create a
+buffer in that specific language mode.
+
+Now, having this file is cool, but I don't want it cluttering my repo history
+without having to add it explicitly to this repo or the global ~.gitignore~.
+That's where ~.git/info/exclude~ comes into play: it works as a local ignore
+file for this repo (if you use multiple computers, you'll have to manually add
+it to the repo in all of them).
